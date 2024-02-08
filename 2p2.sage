@@ -66,3 +66,5 @@ def check_directory(dir_path, sg):
         print("Checking file: " + file)
         print(check_file(dir_path + "/" + file, sg))
     return
+
+#check_file(FILE, twoP)
