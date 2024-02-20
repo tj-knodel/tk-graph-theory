@@ -3,6 +3,7 @@ from sage.graphs.graph_input import from_graph6
 from os import listdir
 # why do we need regex? to needlessly complicate things, of course!
 import re
+import sys
 
 # path to the graph files
 FILE_PATH = "./P3P1free_critical-main"
@@ -68,3 +69,11 @@ def check_directory(dir_path, sg):
     return
 
 #check_file(FILE, twoP)
+
+# get command line input for which file to check
+# also check to see if we get input
+if len(sys.argv) <= 1:
+	print("Usage: sage complement_check [file_name]")
+	sys.exit()
+file = sys.argv[1]
+check_file(file)
