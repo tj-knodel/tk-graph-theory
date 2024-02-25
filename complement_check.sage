@@ -1,9 +1,11 @@
 ## Read in a graph as a string, then show it
 from sage.graphs.graph_input import from_graph6
+from sage.graphs.graph_coloring import vertex_coloring
 from os import listdir
 # why do we need regex? to needlessly complicate things, of course!
 import re
 import sys
+
 
 # path to the graph files
 FILE_PATH = "./P3P1free_critical-main"
@@ -20,12 +22,37 @@ def generate_2p2():
 # set it as a variable for later
 twoP = generate_2p2()
 
-# check a file of graph6 graphs and determine which ones do not have the given subgraph
-def check_file(file, sg):
+# check a graph
+def check_graph(g, k):
+    comp = g.complement()
+    if comp.is_connected() is False:
+        return False
+    if critical_check(comp, k):
+        return True
+    return False
+
+# check if a graph is k vertex critical for a given k
+# from the summer
+def critical_check(G, k):
+    V = G.vertices()
+    chi = G.chromatic_number()
+    if (chi != k):
+        return False
+
+    for v in V:
+        # creates local copy of G so we can delete vertices and maintain G's structure
+        H = Graph(G)
+        H.delete_vertex(v)
+        if vertex_coloring(H, k=k-1, value_only=True) == False:
+            return False
+    return True
+
+# check a file of graph6 graphs and determine which ones are k critical
+def check_file(file_name, k):
     # open the file
-    f = open(file)
+    f = open(file_name)
     
-    graph_list = []
+    o = open(file_name + "output.g6", "w")
     
     # read a line
     with open(file) as f:
@@ -34,17 +61,11 @@ def check_file(file, sg):
             # I feel like this is wrong, but so be it
             if (line == "\n"):
                 continue
-            
-            # create a graph out of a graph6 line
+
             g = Graph(line)
             # check the graph for graphs without sg and add them to the list
-            if (g.subgraph_search(sg, induced=True) is None):
-                #print("look at these good vertices")
-                #print(g)
-                graph_list.append(g)
-
-    print("Number of graphs: " + str(len(graph_list)))
-    return graph_list
+            if (check_graph(g, k)):
+                o.write(g.graph6_string() + "\n")
 
 # extract the graph6 files from the selected directory
 # note: it only picks up things with txt files on the end. Will have to
@@ -73,7 +94,11 @@ def check_directory(dir_path, sg):
 # get command line input for which file to check
 # also check to see if we get input
 if len(sys.argv) <= 1:
-	print("Usage: sage complement_check [file_name]")
+	print("Usage: sage complement_check [name] [file ...]")
 	sys.exit()
-file = sys.argv[1]
-check_file(file)
+
+k = int(sys.argv[1])
+for f in sys.argv[2:]:
+    check_file(f, k)
+    print("Done checking " + f)
+print("Done")
