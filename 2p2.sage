@@ -67,4 +67,9 @@ def check_directory(dir_path, sg):
         print(check_file(dir_path + "/" + file, sg))
     return
 
-#check_file(FILE, twoP)
+
+
+
+# Check 7critical on 13 vertices
+check_file(FILE_PATH + "/7critP3P1free13.txt", twoP)
+
