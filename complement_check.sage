@@ -50,12 +50,12 @@ def critical_check(G, k):
 # check a file of graph6 graphs and determine which ones are k critical
 def check_file(file_name, k):
     # open the file
-    f = open(file_name)
+
     
     o = open(file_name + "output.g6", "w")
     
     # read a line
-    with open(file) as f:
+    with open(file_name) as f:
         for line in f:
             #print(line)
             # I feel like this is wrong, but so be it
