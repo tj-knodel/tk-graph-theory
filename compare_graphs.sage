@@ -39,8 +39,9 @@ with open(sys.argv[1]) as f1, open(sys.argv[2]) as f2:
         print(line1)
         for line2 in f2:
             print(line2)
-            if compare_graphs(Graph(line1), Graph(line2)):
-                print(line1 + " = " + line2)
+            print(compare_graphs(Graph(line1.strip()), Graph(line2.strip())))
+            #if compare_graphs(Graph(line1), Graph(line2)):
+            #    print(line1 + " = " + line2)
         f2.seek(0)
     #print("Graphs are isomorphic")
 
