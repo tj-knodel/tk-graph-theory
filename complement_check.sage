@@ -94,7 +94,7 @@ def check_directory(dir_path, sg):
 # get command line input for which file to check
 # also check to see if we get input
 if len(sys.argv) <= 1:
-	print("Usage: sage complement_check [name] [file ...]")
+	print("Usage: sage complement_check [k] [file ...]")
 	sys.exit()
 
 k = int(sys.argv[1])
