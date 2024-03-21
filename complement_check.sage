@@ -65,7 +65,7 @@ def check_file(file_name, k):
             g = Graph(line)
             # check the graph for graphs without sg and add them to the list
             if (check_graph(g, k)):
-                o.write(g.graph6_string() + "\n")
+                o.write(g.compliment().graph6_string() + "\n")
 
 # extract the graph6 files from the selected directory
 # note: it only picks up things with txt files on the end. Will have to
